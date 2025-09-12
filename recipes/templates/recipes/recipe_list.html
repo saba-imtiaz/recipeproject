@@ -1,0 +1,33 @@
+{% extends "recipes/base.html" %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">All Recipes</h1>
+
+<form method="get" class="flex gap-2 mb-4">
+  <input type="text" name="search" placeholder="Search recipes..."
+         class="border p-2 flex-1" value="{{ request.GET.search }}">
+  <select name="category" class="border p-2">
+    <option value="">All Categories</option>
+    {% for category in categories %}
+      <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
+        {{ category.name }}
+      </option>
+    {% endfor %}
+  </select>
+  <button class="bg-green-600 text-white px-4 py-2">Filter</button>
+</form>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  {% for recipe in recipes %}
+  <div class="bg-white p-4 shadow rounded">
+    {% if recipe.image %}
+      <img src="{{ recipe.image.url }}" class="w-full h-40 object-cover rounded">
+    {% endif %}
+    <h2 class="text-xl font-bold mt-2"><a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.title }}</a></h2>
+    <p class="text-sm text-gray-600">By {{ recipe.author }}</p>
+    <p class="text-sm">Category: {{ recipe.category }}</p>
+  </div>
+  {% empty %}
+    <p>No recipes found.</p>
+  {% endfor %}
+</div>
+{% endblock %}

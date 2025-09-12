@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recipe Sharing App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <nav class="bg-green-600 text-white p-4 flex justify-between">
+    <div>
+      <a href="/" class="font-bold">🍲 Recipe App</a>
+      <a href="{% url 'add_recipe' %}" class="ml-4">Add Recipe</a>
+    </div>
+    <div>
+      {% if user.is_authenticated %}
+        <span class="mr-4">Hello, {{ user.username }}</span>
+        <!-- Logout Form -->
+        <form method="post" action="{% url 'logout' %}" class="inline">
+          {% csrf_token %}
+          <button type="submit" class="ml-2 bg-red-500 hover:bg-red-700 px-3 py-1 rounded">
+            Logout
+          </button>
+        </form>
+      {% else %}
+        <!-- Login Form (button redirects to login page) -->
+        <form method="get" action="{% url 'login' %}" class="inline">
+          <button type="submit" class="ml-2 bg-blue-500 hover:bg-blue-700 px-3 py-1 rounded">
+            Login
+          </button>
+        </form>
+        <!-- Signup button -->
+        <a href="{% url 'signup' %}" 
+           class="ml-2 bg-yellow-500 hover:bg-yellow-700 px-3 py-1 rounded">
+           Signup
+        </a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <div class="container mx-auto p-6">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

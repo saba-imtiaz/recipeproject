@@ -1,0 +1,17 @@
+{% extends "recipes/base.html" %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Add Recipe</h1>
+<form method="post" enctype="multipart/form-data" class="space-y-4">
+  {% csrf_token %}
+  <input type="text" name="title" placeholder="Title" class="border p-2 w-full">
+  <textarea name="ingredients" placeholder="Ingredients" class="border p-2 w-full"></textarea>
+  <textarea name="instructions" placeholder="Instructions" class="border p-2 w-full"></textarea>
+  <input type="file" name="image" class="border p-2 w-full">
+  <select name="category" class="border p-2 w-full">
+    {% for category in categories %}
+      <option value="{{ category.id }}">{{ category.name }}</option>
+    {% endfor %}
+  </select>
+  <button class="bg-green-600 text-white px-4 py-2">Save Recipe</button>
+</form>
+{% endblock %}
